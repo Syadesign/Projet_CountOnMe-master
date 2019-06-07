@@ -9,46 +9,69 @@
 import Foundation
 
 struct Operations {
+    
+    var numbersText = ""
    
-    var elements :[String] = [String]()
+    var numbersArray :[String] {
+        return numbersText.split(separator: " ").map { "\($0)"
+    }
+    }
+    var total = 0
+    var operatorSign = ""
+    
+    var expressionIsCorrect: Bool {
+        return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "÷" && numbersArray.last != "x"
+    }
+    
+    var expressionHaveEnoughElement: Bool {
+        return numbersArray.count >= 2
+    }
+    
+    var canAddOperator: Bool {
+        return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "÷" && numbersArray.last != "x"
+    }
+    
+    var expressionHaveResult: Bool {
+        return numbersText.contains("=")
+    }
+    
+    var currentOperator: Operators = .add {
+        didSet {
+            setOperator(currentOperator)
+        }
+    }
+    
     enum Operators {
         case add, substract, multiply, divide
     }
     
-    var opSign: String? = ""
-    var operatorSign: Operators = .add {
-        didSet {
-            setOperator(operatorSign)
-        }
-    }
-    
-    mutating func setOperator(_ sign: Operators) {
-        switch sign {
-        case.add:
-            self.opSign = "+"
+   mutating func setOperator(_ currentOperator: Operators) {
+        switch currentOperator {
+        case .add:
+            operatorSign = "+"
         case .substract:
-            self.opSign = "-"
+            operatorSign = "-"
         case .multiply:
-            self.opSign = "x"
+            operatorSign = "x"
         case .divide:
-            self.opSign = "÷"
+            operatorSign = "÷"
         }
-        
-    }
-    // Error check computed variables
-    var expressionIsCorrect: Bool {
-        return elements.last != opSign
     }
     
-    var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
+    mutating func operate() -> Int {
+        if numbersArray.count >= 2 {
+        switch currentOperator {
+        case .add:
+            total = Int(numbersArray[0] + numbersArray[1])!
+        case .substract:
+            total = Int(numbersArray[0])! - Int(numbersArray[1])!
+        case .multiply:
+            total = Int(numbersArray[0])! * Int(numbersArray[1])!
+        case .divide:
+            total = Int(numbersArray[0])! / Int(numbersArray[1])!
+        }
     }
-    
-    var canAddOperator: Bool {
-        return elements.last != opSign
+        return total
     }
-    
-    
-    
-    
 }
+
