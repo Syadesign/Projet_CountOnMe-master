@@ -18,13 +18,14 @@ struct Operations {
     }
     var total = 0
     var operatorSign = ""
+    var test = ""
     
     var expressionIsCorrect: Bool {
         return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "÷" && numbersArray.last != "x"
     }
     
     var expressionHaveEnoughElement: Bool {
-        return numbersArray.count >= 2
+        return numbersArray.count >= 3
     }
     
     var canAddOperator: Bool {
@@ -32,7 +33,7 @@ struct Operations {
     }
     
     var expressionHaveResult: Bool {
-        return numbersText.contains("=")
+        return numbersText.firstIndex(of: "=") != nil
     }
     
     var currentOperator: Operators = .add {

@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     
     var operations = Operations()
     
-    
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,7 +92,6 @@ class ViewController: UIViewController {
             return self.present(alertVC, animated: true, completion: nil)
         }
         
-        updateTextView()
         var operationsToReduce = operations.numbersArray
         
         // Iterate over operations while an operand still here
@@ -106,14 +104,16 @@ class ViewController: UIViewController {
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
+            case "x": result = left * right
+            case "÷": result = left / right
             default: fatalError("Unknown operator !")
             }
-            
+
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
-        
         textView.text.append(" = \(operationsToReduce.first!)")
+        updateTextView()
         }
     
     func displayAlert(_ message: String){
