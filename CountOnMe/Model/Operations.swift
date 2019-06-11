@@ -21,7 +21,7 @@ struct Operations {
     var test = ""
     
     var expressionIsCorrect: Bool {
-        return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "÷" && numbersArray.last != "x"
+        return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "/" && numbersArray.last != "x"
     }
     
     var expressionHaveEnoughElement: Bool {
@@ -29,7 +29,7 @@ struct Operations {
     }
     
     var canAddOperator: Bool {
-        return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "÷" && numbersArray.last != "x"
+        return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "/" && numbersArray.last != "x"
     }
     
     var expressionHaveResult: Bool {
@@ -55,24 +55,34 @@ struct Operations {
         case .multiply:
             operatorSign = "x"
         case .divide:
-            operatorSign = "÷"
+            operatorSign = "/"
         }
     }
     
-    mutating func operate() -> Int {
-        if numbersArray.count >= 2 {
-        switch currentOperator {
-        case .add:
-            total = Int(numbersArray[0] + numbersArray[1])!
-        case .substract:
-            total = Int(numbersArray[0])! - Int(numbersArray[1])!
-        case .multiply:
-            total = Int(numbersArray[0])! * Int(numbersArray[1])!
-        case .divide:
-            total = Int(numbersArray[0])! / Int(numbersArray[1])!
+    mutating func calculate() -> String {
+        var operationsToReduce = numbersArray
+        
+        // Iterate over operations while an operand still here
+        while operationsToReduce.count > 1 {
+            let left = Int(operationsToReduce[0])!
+            let operand = operationsToReduce[1]
+            let right = Int(operationsToReduce[2])!
+            
+            let result: Int
+            switch operand {
+            case "+": result = left + right
+            case "-": result = left - right
+            case "x": result = left * right
+            case "/": result = left / right
+            default: fatalError("Unknown operator !")
+            }
+            
+            operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            operationsToReduce.insert("\(result)", at: 0)
         }
+        return " = \(operationsToReduce.first!)"
     }
-        return total
-    }
+    
+   
 }
 

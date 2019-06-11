@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         if self.operations.expressionHaveResult {
             textView.text = ""
         }
-        textView.text.append(" " + numberText)
+        textView.text.append("" + numberText)
         updateTextView()
     }
     
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         
         if self.operations.canAddOperator {
             operations.currentOperator = .add
-            textView.text.append(" " + operations.operatorSign)
+            textView.text.append(" " + operations.operatorSign + " ")
             updateTextView()
         } else {
            displayAlert("Un operateur est déja mis !")
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         operations.currentOperator = .substract
         if self.operations.canAddOperator {
-            textView.text.append(" " + operations.operatorSign)
+            textView.text.append(" " + operations.operatorSign + " ")
             updateTextView()
         } else {
            displayAlert("Un operateur est déja mis !")
@@ -62,7 +62,7 @@ class ViewController: UIViewController {
     @IBAction func tappedMultiplyButton(_ sender: UIButton) {
         operations.currentOperator = .multiply
         if self.operations.canAddOperator {
-            textView.text.append(" " + operations.operatorSign)
+            textView.text.append(" " + operations.operatorSign + " ")
             updateTextView()
         } else {
             displayAlert("Un operateur est déja mis !")
@@ -72,7 +72,7 @@ class ViewController: UIViewController {
     @IBAction func tappedDivideButton(_ sender: UIButton) {
         operations.currentOperator = .divide
         if self.operations.canAddOperator {
-            textView.text.append(" " + operations.operatorSign)
+            textView.text.append(" " + operations.operatorSign + " ")
             updateTextView()
         } else {
            displayAlert("Un operateur est déja mis !")
@@ -85,34 +85,12 @@ class ViewController: UIViewController {
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
-        
         guard self.operations.expressionHaveEnoughElement else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
-        
-        var operationsToReduce = operations.numbersArray
-        
-        // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
-            
-            let result: Int
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "x": result = left * right
-            case "÷": result = left / right
-            default: fatalError("Unknown operator !")
-            }
-
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
-        }
-        textView.text.append(" = \(operationsToReduce.first!)")
+        textView.text.append(operations.calculate())
         updateTextView()
         }
     

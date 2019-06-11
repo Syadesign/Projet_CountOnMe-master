@@ -199,7 +199,7 @@
                                         <rect key="frame" x="233.33333333333337" y="0.0" width="63" height="63"/>
                                         <color key="backgroundColor" red="0.81480354070000005" green="0.40508267279999999" blue="0.34898409250000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="42"/>
-                                        <state key="normal" title="÷">
+                                        <state key="normal" title="/">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
