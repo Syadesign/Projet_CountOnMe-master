@@ -11,14 +11,14 @@ import Foundation
 struct Operations {
     
     var numbersText = ""
-   
+    
     var numbersArray :[String] {
         return numbersText.split(separator: " ").map { "\($0)"
+        }
     }
-    }
-    var total = 0
+    
     var operatorSign = ""
-    var test = ""
+   
     
     var expressionIsCorrect: Bool {
         return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "/" && numbersArray.last != "x"
@@ -46,7 +46,7 @@ struct Operations {
         case add, substract, multiply, divide
     }
     
-   mutating func setOperator(_ currentOperator: Operators) {
+    mutating func setOperator(_ currentOperator: Operators) {
         switch currentOperator {
         case .add:
             operatorSign = "+"
@@ -61,7 +61,6 @@ struct Operations {
     
     mutating func calculate() -> String {
         var operationsToReduce = numbersArray
-        
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
             let left = Int(operationsToReduce[0])!
@@ -76,13 +75,10 @@ struct Operations {
             case "/": result = left / right
             default: fatalError("Unknown operator !")
             }
-            
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
         return " = \(operationsToReduce.first!)"
     }
-    
-   
 }
 

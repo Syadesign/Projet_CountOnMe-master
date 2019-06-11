@@ -19,13 +19,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.text = "1+1=2"
-        updateTextView()
+        updateText()
     }
     
-    func updateTextView() {
-       operations.numbersText = textView.text
+    func updateText() {
+        operations.numbersText = textView.text
     }
     // View actions
+    
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
@@ -35,70 +36,45 @@ class ViewController: UIViewController {
             textView.text = ""
         }
         textView.text.append("" + numberText)
-        updateTextView()
+        updateText()
     }
     
-    @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        
-        if self.operations.canAddOperator {
+    @IBAction func operators(_ sender: UIButton) {
+        let sign = sender.tag
+        switch sign {
+        case 0:
             operations.currentOperator = .add
-            textView.text.append(" " + operations.operatorSign + " ")
-            updateTextView()
-        } else {
-           displayAlert("Un operateur est déja mis !")
+        case 1:
+            operations.currentOperator = .substract
+        case 2:
+            operations.currentOperator = .multiply
+        case 3:
+            operations.currentOperator = .divide
+        default: print ("error")
         }
-    }
-    
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        operations.currentOperator = .substract
         if self.operations.canAddOperator {
             textView.text.append(" " + operations.operatorSign + " ")
-            updateTextView()
-        } else {
-           displayAlert("Un operateur est déja mis !")
-        }
-    }
-
-    @IBAction func tappedMultiplyButton(_ sender: UIButton) {
-        operations.currentOperator = .multiply
-        if self.operations.canAddOperator {
-            textView.text.append(" " + operations.operatorSign + " ")
-            updateTextView()
+            updateText()
         } else {
             displayAlert("Un operateur est déja mis !")
         }
     }
     
-    @IBAction func tappedDivideButton(_ sender: UIButton) {
-        operations.currentOperator = .divide
-        if self.operations.canAddOperator {
-            textView.text.append(" " + operations.operatorSign + " ")
-            updateTextView()
-        } else {
-           displayAlert("Un operateur est déja mis !")
+    @IBAction func tappedEqualButton(_ sender: UIButton) {
+        if self.operations.expressionIsCorrect == false  {
+            displayAlert("Entrez une expression correcte !")
+        } else if self.operations.expressionHaveEnoughElement == false {
+            displayAlert("Démarrez un nouveau calcul !")
+        }else {
+            textView.text.append(operations.calculate())
+            updateText()
         }
     }
-    
-    @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard self.operations.expressionIsCorrect else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
-        }
-        guard self.operations.expressionHaveEnoughElement else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
-        }
-        textView.text.append(operations.calculate())
-        updateTextView()
-        }
     
     func displayAlert(_ message: String){
         let alertVC = UIAlertController(title: "Zéro!", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
-
 }
 
