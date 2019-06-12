@@ -10,8 +10,10 @@ import Foundation
 
 struct Operations {
     
+    // Save the numbers and the operators
     var numbersText = ""
     
+    // Make an array with the numbersText
     var numbersArray :[String] {
         return numbersText.split(separator: " ").map { "\($0)"
         }
@@ -19,23 +21,27 @@ struct Operations {
     
     var operatorSign = ""
    
-    
+    // Check if the last element in numbersArray is not an operator
     var expressionIsCorrect: Bool {
         return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "/" && numbersArray.last != "x"
     }
     
+    // Check if numbersArray contains at least 3 elements
     var expressionHaveEnoughElement: Bool {
         return numbersArray.count >= 3
     }
     
+    // Check if the last element in numbersArray is not an operator
     var canAddOperator: Bool {
         return numbersArray.last != "+" && numbersArray.last != "-" && numbersArray.last != "/" && numbersArray.last != "x"
     }
     
+    //Check if numbersText contains "="
     var expressionHaveResult: Bool {
         return numbersText.firstIndex(of: "=") != nil
     }
     
+    // Observe which operator is it
     var currentOperator: Operators = .add {
         didSet {
             setOperator(currentOperator)

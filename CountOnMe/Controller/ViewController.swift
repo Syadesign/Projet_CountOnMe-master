@@ -10,9 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    // Views
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     
+    //Instance of struct Operations in the model
     var operations = Operations()
     
     // View Life cycles
@@ -22,16 +24,17 @@ class ViewController: UIViewController {
         updateText()
     }
     
+    /// The textView display what is in the property of struct Operations numberText
     func updateText() {
         operations.numbersText = textView.text
     }
-    // View actions
     
+    /// View actions
+    /// When the user tap in a number button, the text view display the button title
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
         }
-        
         if self.operations.expressionHaveResult {
             textView.text = ""
         }
@@ -39,6 +42,7 @@ class ViewController: UIViewController {
         updateText()
     }
     
+    /// When the user tap in a operator button, the text view display the operator
     @IBAction func operators(_ sender: UIButton) {
         let sign = sender.tag
         switch sign {
@@ -52,15 +56,19 @@ class ViewController: UIViewController {
             operations.currentOperator = .divide
         default: print ("error")
         }
+        // Check if the previous element is not an operator
         if self.operations.canAddOperator {
             textView.text.append(" " + operations.operatorSign + " ")
             updateText()
+        // Display an alert if the previous element is already an operator
         } else {
             displayAlert("Un operateur est déja mis !")
         }
     }
     
+    /// When the user tap on the equal button to see the result of the operation
     @IBAction func tappedEqualButton(_ sender: UIButton) {
+        // Check if the previous element is'nt an operator and if the array have 3 elements at least (a number, an operator, and a number)
         if self.operations.expressionIsCorrect == false  {
             displayAlert("Entrez une expression correcte !")
         } else if self.operations.expressionHaveEnoughElement == false {
@@ -71,6 +79,7 @@ class ViewController: UIViewController {
         }
     }
     
+    /// Display an alert with a customized message
     func displayAlert(_ message: String){
         let alertVC = UIAlertController(title: "Zéro!", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
