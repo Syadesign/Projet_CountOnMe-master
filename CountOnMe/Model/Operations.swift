@@ -19,7 +19,7 @@ struct Operations {
         }
     }
 
-    var operatorSign = ""
+    var operatorSign: Operators = .add
 
     // Check if the last element in numbersArray is not an operator
     var expressionIsCorrect: Bool {
@@ -41,30 +41,12 @@ struct Operations {
         return numbersText.firstIndex(of: "=") != nil
     }
 
-    // Observe which operator is it
-    var currentOperator: Operators = .add {
-        didSet {
-            setOperator(currentOperator)
-        }
-    }
-
     // 4 possible operators
-    enum Operators {
-        case add, substract, multiply, divide
-    }
-
-    /// Change sign displayed with each operator
-    mutating func setOperator(_ currentOperator: Operators) {
-        switch currentOperator {
-        case .add:
-            operatorSign = "+"
-        case .substract:
-            operatorSign = "-"
-        case .multiply:
-            operatorSign = "x"
-        case .divide:
-            operatorSign = "/"
-        }
+    enum Operators: String {
+        case add = "+"
+        case substract = "-"
+        case multiply = "x"
+        case divide = "/"
     }
 
     /// Calculate according to each operator

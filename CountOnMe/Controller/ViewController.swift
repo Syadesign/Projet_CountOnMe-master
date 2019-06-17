@@ -47,18 +47,18 @@ class ViewController: UIViewController {
         let sign = sender.tag
         switch sign {
         case 0:
-            operations.currentOperator = .add
+            operations.operatorSign = .add
         case 1:
-            operations.currentOperator = .substract
+            operations.operatorSign = .substract
         case 2:
-            operations.currentOperator = .multiply
+            operations.operatorSign = .multiply
         case 3:
-            operations.currentOperator = .divide
+            operations.operatorSign = .divide
         default: print ("error")
         }
         // Check if the previous element is not an operator
         if self.operations.canAddOperator {
-            textView.text.append(" " + operations.operatorSign + " ")
+            textView.text.append(" " + operations.operatorSign.rawValue + " ")
             updateText()
         // Display an alert if the previous element is already an operator
         } else {
