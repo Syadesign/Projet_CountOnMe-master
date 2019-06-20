@@ -58,20 +58,16 @@ struct Operations {
             let operand = operationsToReduce[1]
             let right = Int(operationsToReduce[2])!
 
-            var result: Int = 0
-            switch operand {
-            case "x": result = left * right
-            case "/": result = left / right
-            default: break
-            }
-
+            let result: Int
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
-            default: break
+            case "x": result = left * right
+            case "/": result = left / right
+            default: fatalError("Unknown operator !")
             }
-            operationsToReduce.insert("\(result)", at: 0)
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            operationsToReduce.insert("\(result)", at: 0)
         }
         // return the operation result
         return "\(operationsToReduce.first!)"
