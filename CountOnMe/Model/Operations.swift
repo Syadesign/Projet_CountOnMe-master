@@ -69,6 +69,7 @@ struct Operations {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
+        // return the operation result
         return "\(operationsToReduce.first!)"
     }
 }

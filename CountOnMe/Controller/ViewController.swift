@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         }
         // Check if the previous element is not an operator
         if operations.expressionHaveResult {
-            displayAlert("Opération incorrecte, veuillez commencer une nouvelle opération")
+            displayAlert("Opération incorrecte, veuillez commencer une nouvelle opération !")
         } else if self.operations.canAddOperator {
             textView.text.append(" " + operations.operatorSign.rawValue + " ")
             updateText()
@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         } else if self.operations.expressionHaveEnoughElement == false {
             displayAlert("Démarrez un nouveau calcul !")
         } else if self.operations.numbersText.contains("/ 0") {
-            displayAlert("Une division par zéro est impossible")
+            displayAlert("Une division par zéro est impossible !")
             textView.text = ""
         } else if self.operations.numbersText.contains("=") {
             displayAlert("Veuillez commencer une nouvelle opération")
