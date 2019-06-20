@@ -57,10 +57,12 @@ class ViewController: UIViewController {
         default: print ("error")
         }
         // Check if the previous element is not an operator
-        if self.operations.canAddOperator {
+        if operations.expressionHaveResult {
+            displayAlert("Opération incorrecte, veuillez commencer une nouvelle opération")
+        } else if self.operations.canAddOperator {
             textView.text.append(" " + operations.operatorSign.rawValue + " ")
             updateText()
-        // Display an alert if the previous element is already an operator
+            // Display an alert if the previous element is already an operator
         } else {
             displayAlert("Un operateur est déja mis !")
         }
@@ -69,19 +71,25 @@ class ViewController: UIViewController {
     /// When the user tap on the equal button to see the result of the operation
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         // Check if the previous element is'nt an operator and if the array have 3 elements at least
+
         if self.operations.expressionIsCorrect == false {
             displayAlert("Entrez une expression correcte !")
         } else if self.operations.expressionHaveEnoughElement == false {
             displayAlert("Démarrez un nouveau calcul !")
+        } else if self.operations.numbersText.contains("/ 0") {
+            displayAlert("Une division par zéro est impossible")
+            textView.text = ""
+        } else if self.operations.numbersText.contains("=") {
+            displayAlert("Veuillez commencer une nouvelle opération")
         } else {
-            textView.text.append(operations.calculate())
+            textView.text.append(" = \(operations.calculate())")
             updateText()
         }
     }
 
     /// Display an alert with a customized message
     func displayAlert(_ message: String) {
-        let alertVC = UIAlertController(title: "Zéro!", message: message, preferredStyle: .alert)
+        let alertVC = UIAlertController(title: "Erreur", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
